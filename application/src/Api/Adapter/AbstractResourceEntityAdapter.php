@@ -13,6 +13,23 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 {
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        if (isset($query['fulltext'])) {
+            $match = sprintf(
+                'MATCH(%s.text) AGAINST (%s)',
+                $this->getEntityClass(),
+                $this->createNamedParameter($qb, $query['fulltext'])
+            );
+            $matchAlias = $this->createAlias();
+            $qb->addSelect(sprintf('%s AS %s', $match, $matchAlias))
+                // Match resources that have a relevance score above 0.8. Note
+                // that the score is arbitray and could be further optimized.
+                ->andWhere($match . ' > 0.8')
+                // Order by the relevance score. Note the use of orderBy() and
+                // not addOrderBy(). This should ensure that ordering by
+                // relevance is the first thing being ordered.
+                ->orderBy($matchAlias, 'DESC');
+        }
+
         $this->buildPropertyQuery($qb, $query);
 
         if (isset($query['search'])) {

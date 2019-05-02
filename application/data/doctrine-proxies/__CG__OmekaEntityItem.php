@@ -64,10 +64,10 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
+            return ['__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'text', 'isPublic', 'created', 'modified', 'values'];
         }
 
-        return ['__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
+        return ['__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'text', 'isPublic', 'created', 'modified', 'values'];
     }
 
     /**
@@ -340,6 +340,28 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitle', []);
 
         return parent::getTitle();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setText($text)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setText', [$text]);
+
+        return parent::setText($text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getText()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getText', []);
+
+        return parent::getText();
     }
 
     /**
